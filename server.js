@@ -35,8 +35,8 @@ app.use("/orders",protect, orderRoutes);
 app.use("/users", protect, allusers)
 // guests may add products; the route is now authenticated
 app.use("/admin/products", protect, isAdminOrGuest, addproduct)
-// guests may edit products
-app.use("/updatepro", protect, isAdminOrGuest, updatepro)
+// only full admins may edit products
+app.use("/updatepro", protect, isAdmin, updatepro)
 // guests may view and update order status
 app.use("/all", protect, isAdminOrGuest, adminorder)
 app.use("/payment",payment)
