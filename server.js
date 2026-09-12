@@ -15,7 +15,8 @@ const updatepro=require("./routes/updateproduct")
 const payment=require("./routes/paymentrouter")
 const protect = require("./middleware/authMiddleware")
 const verifyRoute = require("./routes/paymentverify");
-const isAdmin = require("./middleware/adminmiddleware");
+const { isAdmin, isAdminOrGuest } = require("./middleware/adminmiddleware");
+const { ensureGuestAdmin } = require("./config/guestseed");
 
 
 const app=express()
@@ -23,17 +24,21 @@ app.use(cors())
 app.use(express.json())
 
 
-connectdb()
+connectdb().then(() => ensureGuestAdmin())
 
 
 app.use("/auth", autheroutes)
 app.use("/cart",protect,cartroute)
 app.use("/order", protect, checkroute);
 app.use("/orders",protect, orderRoutes);
-app.use("/users", protect, isAdmin, allusers)
-app.use("/admin/products", addproduct)
-app.use("/updatepro", protect, isAdmin, updatepro)
-app.use("/all", protect, isAdmin, adminorder)
+// users router decides its own method-level guards
+app.use("/users", protect, allusers)
+// guests may add products; the route is now authenticated
+app.use("/admin/products", protect, isAdminOrGuest, addproduct)
+// guests may edit products
+app.use("/updatepro", protect, isAdminOrGuest, updatepro)
+// guests may view and update order status
+app.use("/all", protect, isAdminOrGuest, adminorder)
 app.use("/payment",payment)
 app.use("/payment/verify", protect, verifyRoute) 
 app.get("/", (req,res)=>{

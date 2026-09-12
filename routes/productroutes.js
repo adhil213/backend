@@ -15,7 +15,7 @@ const {
 } = require("../controller/reviewcontroller");
 
 const protect = require("../middleware/authMiddleware");
-const isAdmin = require("../middleware/adminmiddleware");
+const { isAdmin } = require("../middleware/adminmiddleware");
 
 
 router.get("/", getallproduct);
