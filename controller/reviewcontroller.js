@@ -60,6 +60,8 @@ const getReviews = async (req, res) => {
   try {
     const { id } = req.params;
 
+    res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+
     const product = await Product.findById(id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
