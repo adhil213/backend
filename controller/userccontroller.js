@@ -3,7 +3,7 @@ const express = require("express");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+
 
 const login = async (req, res) => {
   try {
@@ -114,6 +114,7 @@ const rolechanger = async (req, res) => {
     const { id } = req.params;
 
     const user = await User.findById(id);
+       
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

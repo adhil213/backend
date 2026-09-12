@@ -1,6 +1,6 @@
 const isAdmin = (req, res, next) => {
   try {
-    console.log("🔥 ADD PRODUCT ROUTE HIT");
+  
     if (!req.user) {
       return res.status(401).json({ message: "Not authorized" });
     }

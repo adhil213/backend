@@ -9,7 +9,7 @@ const orderItemSchema = new mongoose.Schema({
 
 const orderschema = new mongoose.Schema({
   orderId: String,
-  items: [orderItemSchema], // ✅ FIXED
+  items: [orderItemSchema], 
   address: Object,
   paymentMethod: String,
   totalAmount: Number,
